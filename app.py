@@ -47,11 +47,7 @@ def photos():
 @app.route('/albums',methods=['GET','POST'])
 def albums():
     data_albums = get_data('albums')
-    if data_albums is not None:
-        if forms.DisplayCountForm().validate_on_submit():
-            count = int(forms.DisplayCountForm().myField.data)
-            data_albums = data_albums[:count]
-    return render_template('albums.html', data_albums=data_albums, select_form=forms.DisplayCountForm())
+    return render_template('albums.html', data_albums=data_albums)
 
 
 def get_comments(post_id):
