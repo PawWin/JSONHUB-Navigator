@@ -26,6 +26,9 @@
           <li class="nav-item">
             <a class="nav-link" href="#">Photos</a>
           </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{{ url_for('comments') }}">Comments</a>
+          </li>
         </ul>
       </div>
     </nav>
@@ -33,20 +36,27 @@
             <div class="container">
                 <div class="row full-height justify-content-center">
                     <div class="col-12 text-center align-self-center py-5">
-                        <div class="card-columns">
-                            {%for post in data_posts %}
-                                <div class="card text-white bg-dark mb-3" >
-                                  <div class="card-body">
-                                    <h5 class="card-title text-left ">{{ post.title }}</h5>
-                                    <h6 class="card-subtitle mb-2 text-muted text-left ">Written by user: {{post.userId}}</h6>
-                                    <p class="card-text">{{post.body }}</p>
-                                    <div class="card-footer">
-                                      <small class="text-muted">Komentarzy: {{ get_comments(post.id) }}</small>
-                                    </div>
-                                  </div>
-                                </div>
+                        <table class="table table-hover table-dark">
+                          <thead>
+                            <tr>
+                                <th scope="col" class="text-center">UserId</th>
+                                <th scope="col" class="text-center">Id</th>
+                                <th scope="col" class="text-center">Title</th>
+                                <th scope="col" class="text-center">Body </th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                          {%for post in data_posts %}
+                            <tr>
+                              <td class="text-center align-middle">{{ post.userId }}</td>
+                              <td class="text-center align-middle">{{ post.id }}</td>
+                              <td class="text-center align-middle">{{ post.title }}</td>
+                              <td class="text-center align-middle">{{ post.body }}</td>
+                            </tr>
                             {% endfor %}
-                        </div>
+                          </tbody>
+                        </table>
+
                     </div>
                 </div>
             </div>
