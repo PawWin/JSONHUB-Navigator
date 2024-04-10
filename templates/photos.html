@@ -42,7 +42,7 @@
                                 <th scope="col" class="text-center">UserId</th>
                                 <th scope="col" class="text-center">Id</th>
                                 <th scope="col" class="text-center">Title</th>
-                                <th scope="col" class="text-center">Body</th>
+                                <th scope="col" class="text-center">Url</th>
                                 <th scope="col" class="text-center">Thumbnail</th>
                             </tr>
                           </thead>
@@ -52,8 +52,8 @@
                               <td class="text-center align-middle">{{ photo.albumId }}</td>
                               <td class="text-center align-middle">{{ photo.id }}</td>
                               <td class="text-center align-middle">{{ photo.title }}</td>
-                              <td class="text-center align-middle">{{ photo.url }}</td>
-                              <td class="text-center align-middle">{{ photo.thumbnailUrl }}</td>
+                              <td class="text-center align-middle"><a href="{{ photo.url }}">{{ photo.url }}</a></td>
+                              <td class="text-center align-middle"><a href="{{ photo.thumbnailUrl }}">{{ photo.thumbnailUrl }}</a></td>
                             </tr>
                             {% endfor %}
                           </tbody>

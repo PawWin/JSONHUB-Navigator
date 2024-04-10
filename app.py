@@ -28,7 +28,6 @@ def get_data(endpoint):
 def index():
     return render_template('index.html')
 
-
 @app.route('/posts',methods=['GET','POST'])
 def posts():
     global data_posts_searched
@@ -48,7 +47,7 @@ def posts():
         bottom_field = forms.SearchNumberForm().bottom
         bottom = int(bottom_field.data)
         print(bottom)
-        data_posts_searched = numberSearch(top, bottom, data_posts)
+        data_posts_searched = numberSearch(bottom, top, data_posts)
         return redirect(url_for('posts'))
 
     if forms.SearchWordForm().search2.data and forms.SearchWordForm().validate():
@@ -79,18 +78,15 @@ def albums():
     return render_template('albums.html', data_albums=data_albums)
 
 
-def get_comments(post_id):
-    r = requests.get(f'https://jsonplaceholder.typicode.com/posts/{post_id}/comments')
-    return len(r.json())
 
-
-def numberSearch(top, bottom, posts):
+def numberSearch(bottom, top, posts):
     foundposts = []
     for post in posts:
         postlen = len(post["body"])
-        if top >= postlen >= bottom:
+        if bottom <= postlen <= top:
             foundposts.append(post)
     return foundposts
+
 
 
 def wordSearch(word, posts):
@@ -102,4 +98,4 @@ def wordSearch(word, posts):
 
 
 if __name__ == '__main__':
-    app.run()
+    app.run(debug=True)
