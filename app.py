@@ -1,8 +1,13 @@
 from flask import Flask, render_template
+from flask_wtf.csrf import CSRFProtect
 import requests
 import logging
+import os
 
 app = Flask(__name__, template_folder='./templates')
+SECRET_KEY = os.urandom(32)
+app.config['SECRET_KEY'] = SECRET_KEY
+csrf = CSRFProtect(app)
 
 logging.basicConfig(filename='errors.log', level=logging.ERROR)
 
