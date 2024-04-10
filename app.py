@@ -1,33 +1,39 @@
 from flask import Flask, render_template
 import requests
+import logging
 
 app = Flask(__name__,  template_folder='./templates')
 
+logging.basicConfig(filename='errors.log', level=logging.ERROR)
 
+
+def get_data(endpoint):
+    try:
+        response = requests.get(f'https://jsonplaceholder.typicode.com/{endpoint}')
+        response.raise_for_status()
+        return response.json()
+    except Exception as e:
+        logging.error(f'Error while fetching data from API: {e}')
+        return None
 @app.route('/')
 def index():
     return render_template('index.html')
 @app.route('/posts')
 def posts():
-    r_p = requests.get('https://jsonplaceholder.typicode.com/posts')
-    data_posts = r_p.json()
+    data_posts = get_data('posts')
     return render_template('posts.html',data_posts = data_posts)
 
 @app.route('/comments')
 def comments():
-    r_c = requests.get('https://jsonplaceholder.typicode.com/comments')
-    data_comments = r_c.json()
-    print(data_comments)
+    data_comments = get_data('comments')
     return render_template('comments.html',data_comments = data_comments)
 @app.route('/photos')
 def photos():
-    r_p = requests.get('https://jsonplaceholder.typicode.com/photos')
-    data_photos = r_p.json()
+    data_photos = get_data('photos')
     return render_template('photos.html',data_photos = data_photos)
 @app.route('/albums')
 def albums():
-    r_a = requests.get('https://jsonplaceholder.typicode.com/albums')
-    data_albums = r_a.json()
+    data_albums = get_data('albums')
     return render_template('albums.html',data_albums = data_albums)
 
 
