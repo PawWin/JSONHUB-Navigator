@@ -46,13 +46,13 @@
                             </tr>
                           </thead>
                           <tbody>
-                          {%for comment in comments %}
+                          {%for comment in data_comments %}
                             <tr>
-                              <td class="text-center align-middle">{{ comments.postId }}</td>
-                              <td class="text-center align-middle">{{ post.id }}</td>
-                              <td class="text-center align-middle">{{ post.name }}</td>
-                              <td class="text-center align-middle">{{ post.email }}</td>
-                              <td class="text-center align-middle">{{ post.body }}</td>
+                              <td class="text-center align-middle">{{ comment.postId }}</td>
+                              <td class="text-center align-middle">{{ comment.id }}</td>
+                              <td class="text-center align-middle">{{ comment.name }}</td>
+                              <td class="text-center align-middle">{{ comment.email }}</td>
+                              <td class="text-center align-middle">{{ comment.body }}</td>
                             </tr>
                             {% endfor %}
                           </tbody>

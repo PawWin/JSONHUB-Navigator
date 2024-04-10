@@ -17,13 +17,14 @@ def posts():
 def comments():
     r_c = requests.get('https://jsonplaceholder.typicode.com/comments')
     data_comments = r_c.json()
+    print(data_comments)
     return render_template('comments.html',data_comments = data_comments)
 @app.route('/photos')
 def photos():
     r_p = requests.get('https://jsonplaceholder.typicode.com/photos')
     data_photos = r_p.json()
     return render_template('photos.html',data_photos = data_photos)
-@app.route('/todos')
+@app.route('/albums')
 def albums():
     r_a = requests.get('https://jsonplaceholder.typicode.com/albums')
     data_albums = r_a.json()

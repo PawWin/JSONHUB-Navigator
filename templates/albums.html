@@ -46,11 +46,11 @@
                             </tr>
                           </thead>
                           <tbody>
-                          {%for album in albums %}
+                          {%for album in data_albums %}
                             <tr>
-                              <td class="text-center align-middle">{{ comments.userId }}</td>
-                              <td class="text-center align-middle">{{ post.id }}</td>
-                              <td class="text-center align-middle">{{ post.title }}</td>
+                              <td class="text-center align-middle">{{ album.userId }}</td>
+                              <td class="text-center align-middle">{{ album.id }}</td>
+                              <td class="text-center align-middle">{{ album.title }}</td>
                             </tr>
                             {% endfor %}
                           </tbody>

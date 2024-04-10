@@ -46,13 +46,13 @@
                             </tr>
                           </thead>
                           <tbody>
-                          {%for photo in photos %}
+                          {%for photo in data_photos %}
                             <tr>
-                              <td class="text-center align-middle">{{ comments.albumId }}</td>
-                              <td class="text-center align-middle">{{ post.id }}</td>
-                              <td class="text-center align-middle">{{ post.title }}</td>
-                              <td class="text-center align-middle">{{ post.url }}</td>
-                              <td class="text-center align-middle">{{ post.thumbnailUrl }}</td>
+                              <td class="text-center align-middle">{{ photo.albumId }}</td>
+                              <td class="text-center align-middle">{{ photo.id }}</td>
+                              <td class="text-center align-middle">{{ photo.title }}</td>
+                              <td class="text-center align-middle">{{ photo.url }}</td>
+                              <td class="text-center align-middle">{{ photo.thumbnailUrl }}</td>
                             </tr>
                             {% endfor %}
                           </tbody>
