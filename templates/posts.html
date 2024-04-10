@@ -41,9 +41,21 @@
                         <h5 class="card-title">Opcje Wyświetlania</h5>
                         <p class="card-text">
                             <form action="" method="POST" >
-                                {{ search_form.bottom }}
-                                {{ search_form.top }}
+                                {{ search_number_form.bottom }}
+                                {{ search_number_form.top }}
                                 {{ search_form.search }}
+                            </form>
+                        </p>
+                      </div>
+                    </div>
+                    <div class="card bg-dark text-white" style="width: 18rem;">
+                      <div class="card-body">
+                        <h5 class="card-title">Opcje Wyświetlania</h5>
+                        <p class="card-text">
+                            <form action="" method="POST" >
+                                {{ search_word_form.bottom }}
+                                {{ search_word_form.top }}
+                                {{ search_word_form.search }}
                             </form>
                         </p>
                       </div>
