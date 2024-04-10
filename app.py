@@ -29,7 +29,7 @@ def index():
 @app.route('/posts')
 def posts():
     data_posts = get_data('posts')
-    return render_template('posts.html', data_posts=data_posts)
+    return render_template('posts.html', data_posts=data_posts, search_number_form=forms.SearchNumberForm, search_word_form=forms.SearchWordForm)
 
 
 @app.route('/comments')
