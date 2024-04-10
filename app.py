@@ -1,4 +1,4 @@
-from flask import Flask, render_template
+from flask import Flask, render_template, redirect, url_for
 from flask_wtf.csrf import CSRFProtect
 import requests
 import logging
@@ -46,11 +46,13 @@ def posts():
         bottom = forms.SearchNumberForm().bottom
         data_posts_searched = numberSearch(top, bottom, data_posts)
         global data_posts_searched
+        return redirect(url_for('posts'))
 
     if forms.SearchWordForm().validate_on_submit():
         word = forms.SearchWordForm().word
         data_posts_searched = wordSearch(word, data_posts)
         global data_posts_searched
+        return redirect(url_for('posts'))
 
     return render_template('posts.html', data_posts=data_posts, search_number_form=forms.SearchNumberForm, search_word_form=forms.SearchWordForm)
 
