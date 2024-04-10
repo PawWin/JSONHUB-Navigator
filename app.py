@@ -84,12 +84,11 @@ def get_comments(post_id):
     return len(r.json())
 
 
-def numberSearch(bottom, top, posts):
+def numberSearch(top, bottom, posts):
     foundposts = []
     for post in posts:
-        #print(post)
-        if top >= int(len(post["body"].replace('\n',''))) >= bottom:
-            print(post)
+        postlen = len(post["body"])
+        if top >= postlen >= bottom:
             foundposts.append(post)
     return foundposts
 
