@@ -5,9 +5,9 @@ from wtforms import StringField, IntegerField, SubmitField, SelectField
 class SearchNumberForm(FlaskForm):
     bottom = IntegerField(render_kw={'class': 'bg-dark text-white'})
     top = IntegerField(render_kw={'class': 'bg-dark text-white'})
-    search = SubmitField("Search", render_kw={'class': 'btn btn-primary'})
+    search1 = SubmitField("Search", render_kw={'class': 'btn btn-primary mt-3'})
 
 
 class SearchWordForm(FlaskForm):
-    word = StringField()
-    search = SubmitField("Search", render_kw={'class': 'btn btn-primary'})
+    word = StringField(render_kw={'class': 'bg-dark text-white'})
+    search2 = SubmitField("Search", render_kw={'class': 'btn btn-primary mt-3'})

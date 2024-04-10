@@ -29,7 +29,7 @@ def index():
     return render_template('index.html')
 
 
-@app.route('/posts')
+@app.route('/posts',methods=['GET','POST'])
 def posts():
     global data_posts_searched
 
@@ -39,22 +39,26 @@ def posts():
         data_posts = deepcopy(data_posts_searched)
 
     data_posts_searched = []
-    global data_posts_searched
 
-    if forms.SearchNumberForm().validate_on_submit():
-        top = forms.SearchNumberForm().top
-        bottom = forms.SearchNumberForm().bottom
+
+    if forms.SearchNumberForm().search1.data and forms.SearchNumberForm().validate():
+        top_field = forms.SearchNumberForm().top
+        top = int(top_field.data)
+        print(top)
+        bottom_field = forms.SearchNumberForm().bottom
+        bottom = int(bottom_field.data)
+        print(bottom)
         data_posts_searched = numberSearch(top, bottom, data_posts)
-        global data_posts_searched
         return redirect(url_for('posts'))
 
-    if forms.SearchWordForm().validate_on_submit():
-        word = forms.SearchWordForm().word
+    if forms.SearchWordForm().search2.data and forms.SearchWordForm().validate():
+        word_field = forms.SearchWordForm().word
+        word = str(word_field.data)
+        print(word)
         data_posts_searched = wordSearch(word, data_posts)
-        global data_posts_searched
         return redirect(url_for('posts'))
 
-    return render_template('posts.html', data_posts=data_posts, search_number_form=forms.SearchNumberForm, search_word_form=forms.SearchWordForm)
+    return render_template('posts.html', data_posts=data_posts, search_number_form=forms.SearchNumberForm(), search_word_form=forms.SearchWordForm())
 
 
 @app.route('/comments')
@@ -83,7 +87,9 @@ def get_comments(post_id):
 def numberSearch(bottom, top, posts):
     foundposts = []
     for post in posts:
-        if bottom < len(post.body) < top:
+        #print(post)
+        if top >= int(len(post["body"].replace('\n',''))) >= bottom:
+            print(post)
             foundposts.append(post)
     return foundposts
 
@@ -91,7 +97,7 @@ def numberSearch(bottom, top, posts):
 def wordSearch(word, posts):
     foundposts = []
     for post in posts:
-        if word in (post.body or post.title):
+        if word in (post["body"] or post["title"]):
             foundposts.append(post)
     return foundposts
 
