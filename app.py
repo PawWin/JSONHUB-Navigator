@@ -57,10 +57,18 @@ def get_comments(post_id):
     return len(r.json())
 
 
-def search(bottom, top, posts):
+def LengthSearch(bottom, top, posts):
     foundposts = []
     for post in posts:
-        if bottom < len(post) < top:
+        if bottom < len(post.body) < top:
+            foundposts.append(post)
+    return foundposts
+
+
+def WordSearch(word, posts):
+    foundposts = []
+    for post in posts:
+        if word in (post.body or post.title):
             foundposts.append(post)
     return foundposts
 
