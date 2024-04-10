@@ -1,7 +1,7 @@
 from flask import Flask, render_template
 import requests
 import logging
-
+import forms
 app = Flask(__name__, template_folder='./templates')
 
 logging.basicConfig(filename='errors.log', level=logging.ERROR)
@@ -38,10 +38,12 @@ def photos():
     return render_template('photos.html', data_photos=data_photos)
 
 
-@app.route('/albums')
-def albums():
+@app.route('/albums',methods=['GET','POST'])
+def albums(ilosc=None):
+    if ilosc is not None:
+        data_albums = get_data(f'albums/{ilosc}')
     data_albums = get_data('albums')
-    return render_template('albums.html', data_albums=data_albums)
+    return render_template('albums.html', data_albums=data_albums, select_form=forms.DisplayCountForm())
 
 
 def get_comments(post_id):
