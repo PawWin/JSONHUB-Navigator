@@ -4,6 +4,7 @@ import requests
 import logging
 import forms
 import os
+from copy import deepcopy
 
 app = Flask(__name__, template_folder='./templates')
 SECRET_KEY = os.urandom(32)
@@ -11,6 +12,8 @@ app.config['SECRET_KEY'] = SECRET_KEY
 csrf = CSRFProtect(app)
 
 logging.basicConfig(filename='errors.log', level=logging.ERROR)
+
+data_posts_searched = []
 
 
 def get_data(endpoint):
@@ -28,7 +31,27 @@ def index():
 
 @app.route('/posts')
 def posts():
-    data_posts = get_data('posts')
+    global data_posts_searched
+
+    if not data_posts_searched:
+        data_posts = get_data('posts')
+    else:
+        data_posts = deepcopy(data_posts_searched)
+
+    data_posts_searched = []
+    global data_posts_searched
+
+    if forms.SearchNumberForm().validate_on_submit():
+        top = forms.SearchNumberForm().top
+        bottom = forms.SearchNumberForm().bottom
+        data_posts_searched = numberSearch(top, bottom, data_posts)
+        global data_posts_searched
+
+    if forms.SearchWordForm().validate_on_submit():
+        word = forms.SearchWordForm().word
+        data_posts_searched = wordSearch(word, data_posts)
+        global data_posts_searched
+
     return render_template('posts.html', data_posts=data_posts, search_number_form=forms.SearchNumberForm, search_word_form=forms.SearchWordForm)
 
 
@@ -57,7 +80,7 @@ def get_comments(post_id):
     return len(r.json())
 
 
-def LengthSearch(bottom, top, posts):
+def numberSearch(bottom, top, posts):
     foundposts = []
     for post in posts:
         if bottom < len(post.body) < top:
@@ -65,7 +88,7 @@ def LengthSearch(bottom, top, posts):
     return foundposts
 
 
-def WordSearch(word, posts):
+def wordSearch(word, posts):
     foundposts = []
     for post in posts:
         if word in (post.body or post.title):
