@@ -11,3 +11,8 @@ class SearchNumberForm(FlaskForm):
 class SearchWordForm(FlaskForm):
     word = StringField(render_kw={'class': 'bg-dark text-white'})
     search2 = SubmitField("Search", render_kw={'class': 'btn btn-primary mt-3'})
+
+class SelectForm(FlaskForm):
+    # Define a select field with choices
+    select_field = SelectField('Ilosc', choices=[('10', '10'), ('25', '25'), ('50', '50'), ('100', '100')],render_kw={'class': 'bg-dark text-white'})
+    submit = SubmitField("Wyświetl", render_kw={'class': 'btn btn-primary mt-3'})

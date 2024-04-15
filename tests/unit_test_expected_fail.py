@@ -1,6 +1,7 @@
 import pytest
 import pytest
-from app import app, numberSearch, wordSearch
+from app import app, numberSearch, wordSearch,get_specific_number_posts
+
 
 @pytest.fixture
 def client():
@@ -53,6 +54,16 @@ def test_word_search():
     result = wordSearch(word, posts)
     assert len(result) == 2  # Expect only one post containing the word "Python"
 
+
+def test_get_specific_number_posts():
+    posts = [
+        {"title": "Post 1", "body": "This is the first post."},
+        {"title": "Post 2", "body": "This is the second post."},
+        {"title": "Post 3", "body": "This is the third post."},
+    ]
+    num = 4
+    result = get_specific_number_posts(posts, num)
+    assert len(result) == num
 
 
 if __name__ == '__main__':

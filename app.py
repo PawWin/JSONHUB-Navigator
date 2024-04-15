@@ -1,4 +1,4 @@
-from flask import Flask, render_template, redirect, url_for
+from flask import Flask, render_template, redirect, url_for, request
 from flask_wtf.csrf import CSRFProtect
 import requests
 import logging
@@ -57,7 +57,12 @@ def posts():
         data_posts_searched = wordSearch(word, data_posts)
         return redirect(url_for('posts'))
 
-    return render_template('posts.html', data_posts=data_posts, search_number_form=forms.SearchNumberForm(), search_word_form=forms.SearchWordForm())
+    if forms.SelectForm().select_field.data and forms.SelectForm().validate():
+        selected_value = request.form['select_field']
+        data_posts_searched = get_specific_number_posts(data_posts, int(selected_value))
+        return redirect(url_for('posts'))
+
+    return render_template('posts.html', data_posts=data_posts, search_number_form=forms.SearchNumberForm(), search_word_form=forms.SearchWordForm(),select_form=forms.SelectForm())
 
 
 @app.route('/comments')
@@ -96,6 +101,9 @@ def wordSearch(word, posts):
             foundposts.append(post)
     return foundposts
 
+def get_specific_number_posts(posts, num):
+    num_posts = posts[:num]
+    return num_posts
 
 if __name__ == '__main__':
     app.run(debug=True)
