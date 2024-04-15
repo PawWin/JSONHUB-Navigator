@@ -36,50 +36,24 @@
             <div class="container">
                 <div class="row full-height justify-content-center">
                     <div class="col-12 text-center align-self-center py-5">
-                        <div class="d-flex justify-content-center">
-                                <div class="card bg-dark text-white mb-2" style="height: 14rem;width: 35rem;">
-                                  <div class="card-body">
-                                    <h5 class="card-title">Display Options</h5>
-                                    <p class="card-text">
-                                      <div class="row">
-                                          <div class="col-sm-6">
-                                              <p>Search by character count</p>
-                                            <form action="" method="POST" >
-                                                {{search_number_form.csrf_token()}}
-                                                {{ search_number_form.bottom(placeholder = "Bottom Number") }}
-                                                {{ search_number_form.top(placeholder = "Upper Number") }}
-                                                {{ search_number_form.search1 }}
-                                            </form>
-                                          </div>
-                                          <div class="col-sm-6">
-                                              <p>Search by words</p>
-                                              <form action="" method="POST" >
-                                                {{ search_word_form.csrf_token()}}
-                                                {{ search_word_form.word(placeholder = "Word") }}
-                                                {{ search_word_form.search2 }}
-                                            </form>
-                                          </div>
-                                        </div>
-                                    </p>
-                                  </div>
-                                </div>
-                            </div>
                         <table class="table table-hover table-dark">
                           <thead>
                             <tr>
                                 <th scope="col" class="text-center">UserId</th>
                                 <th scope="col" class="text-center">Id</th>
                                 <th scope="col" class="text-center">Title</th>
+                                <th scope="col" class="text-center">E-mail</th>
                                 <th scope="col" class="text-center">Body </th>
                             </tr>
                           </thead>
                           <tbody>
-                          {%for post in data_posts %}
+                          {%for comment in data_comments %}
                             <tr>
-                              <td class="text-center align-middle">{{ post.userId }}</td>
-                              <td class="text-center align-middle">{{ post.id }}</td>
-                              <td class="text-center align-middle">{{ post.title }}</td>
-                              <td class="text-center align-middle">{{ post.body }}</td>
+                              <td class="text-center align-middle">{{ comment.postId }}</td>
+                              <td class="text-center align-middle">{{ comment.id }}</td>
+                              <td class="text-center align-middle">{{ comment.name }}</td>
+                              <td class="text-center align-middle">{{ comment.email }}</td>
+                              <td class="text-center align-middle">{{ comment.body }}</td>
                             </tr>
                             {% endfor %}
                           </tbody>
