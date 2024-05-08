@@ -331,7 +331,22 @@ h6 span{
 #delete{
    width: 70%;
 }
-
+.cos{
+  height: 14rem;
+  width: 40rem;
+}
+@media (max-width: 575.98px) {
+  .row{
+    flex-direction: column;
+  }
+  .cos{
+  height: 30rem;
+  width: 40rem;
+  }
+  .cos2{
+    padding-top: 20px;
+  }
+}
 
 
 
