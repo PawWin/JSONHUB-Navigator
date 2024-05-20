@@ -1,10 +1,13 @@
-from flask import Flask, render_template, redirect, url_for, request
+from flask import Flask, request, render_template, redirect, url_for
 from flask_wtf.csrf import CSRFProtect
 import requests
 import logging
 import forms
 import os
 from copy import deepcopy
+import cProfile
+import pstats
+import io
 
 app = Flask(__name__, template_folder='./templates')
 SECRET_KEY = os.urandom(32)
@@ -15,7 +18,6 @@ logging.basicConfig(filename='errors.log', level=logging.ERROR)
 
 data_posts_searched = []
 
-
 def get_data(endpoint):
     try:
         response = requests.get(f'https://jsonplaceholder.typicode.com/{endpoint}')
@@ -24,11 +26,12 @@ def get_data(endpoint):
     except Exception as e:
         logging.error(f'Error while fetching data from API: {e}')
         return None
+
 @app.route('/')
 def index():
     return render_template('index.html')
 
-@app.route('/posts',methods=['GET','POST'])
+@app.route('/posts', methods=['GET', 'POST'])
 def posts():
     global data_posts_searched
 
@@ -39,21 +42,17 @@ def posts():
 
     data_posts_searched = []
 
-
     if forms.SearchNumberForm().search1.data and forms.SearchNumberForm().validate():
         top_field = forms.SearchNumberForm().top
         top = int(top_field.data)
-        print(top)
         bottom_field = forms.SearchNumberForm().bottom
         bottom = int(bottom_field.data)
-        print(bottom)
         data_posts_searched = numberSearch(bottom, top, data_posts)
         return redirect(url_for('posts'))
 
     if forms.SearchWordForm().search2.data and forms.SearchWordForm().validate():
         word_field = forms.SearchWordForm().word
         word = str(word_field.data)
-        print(word)
         data_posts_searched = wordSearch(word, data_posts)
         return redirect(url_for('posts'))
 
@@ -62,27 +61,22 @@ def posts():
         data_posts_searched = get_specific_number_posts(data_posts, int(selected_value))
         return redirect(url_for('posts'))
 
-    return render_template('posts.html', data_posts=data_posts, search_number_form=forms.SearchNumberForm(), search_word_form=forms.SearchWordForm(),select_form=forms.SelectForm())
-
+    return render_template('posts.html', data_posts=data_posts, search_number_form=forms.SearchNumberForm(), search_word_form=forms.SearchWordForm(), select_form=forms.SelectForm())
 
 @app.route('/comments')
 def comments():
     data_comments = get_data('comments')
     return render_template('comments.html', data_comments=data_comments)
 
-
 @app.route('/photos')
 def photos():
     data_photos = get_data('photos')
     return render_template('photos.html', data_photos=data_photos)
 
-
-@app.route('/albums',methods=['GET','POST'])
+@app.route('/albums', methods=['GET', 'POST'])
 def albums():
     data_albums = get_data('albums')
     return render_template('albums.html', data_albums=data_albums)
-
-
 
 def numberSearch(bottom, top, posts):
     foundposts = []
@@ -91,8 +85,6 @@ def numberSearch(bottom, top, posts):
         if bottom <= postlen <= top:
             foundposts.append(post)
     return foundposts
-
-
 
 def wordSearch(word, posts):
     foundposts = []
@@ -106,4 +98,12 @@ def get_specific_number_posts(posts, num):
     return num_posts
 
 if __name__ == '__main__':
+    pr = cProfile.Profile()
+    pr.enable()
     app.run(debug=True)
+    pr.disable()
+    s = io.StringIO()
+    sortby = pstats.SortKey.CUMULATIVE
+    ps = pstats.Stats(pr, stream=s).sort_stats(sortby)
+    ps.print_stats()
+    print(s.getvalue())
