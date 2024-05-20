@@ -5,6 +5,7 @@ import logging
 import forms
 import os
 from copy import deepcopy
+from memory_profiler import profile
 import cProfile
 import pstats
 import io
@@ -18,6 +19,7 @@ logging.basicConfig(filename='errors.log', level=logging.ERROR)
 
 data_posts_searched = []
 
+@profile
 def get_data(endpoint):
     try:
         response = requests.get(f'https://jsonplaceholder.typicode.com/{endpoint}')
@@ -78,6 +80,7 @@ def albums():
     data_albums = get_data('albums')
     return render_template('albums.html', data_albums=data_albums)
 
+@profile
 def numberSearch(bottom, top, posts):
     foundposts = []
     for post in posts:
@@ -86,6 +89,7 @@ def numberSearch(bottom, top, posts):
             foundposts.append(post)
     return foundposts
 
+@profile
 def wordSearch(word, posts):
     foundposts = []
     for post in posts:
@@ -93,6 +97,7 @@ def wordSearch(word, posts):
             foundposts.append(post)
     return foundposts
 
+@profile
 def get_specific_number_posts(posts, num):
     num_posts = posts[:num]
     return num_posts
